@@ -1,22 +1,19 @@
 # Monitoring-With-Prometheus-and-Grafana
 Monitoring With Prometheus and Grafana
 
+
 Install Prometheus and Grafana
 Add the Helm repos for Prometheus, Grafana and update any changes.
 
-1
-2
-3
+
+
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo add grafana https://grafana.github.io/helm-charts
 helm repo update
 We’ll create a separate namespace for Prometheus and install the chart there.
 
-1
-2
-3
-4
-5
+
+
 kubectl create namespace prometheus
 helm install prometheus prometheus-community/prometheus \
     --namespace prometheus \
@@ -24,17 +21,8 @@ helm install prometheus prometheus-community/prometheus \
     --set server.persistentVolume.storageClass="gp2"
 Create this file. It tells Grafana what to use as a source (url). It’s the Prometheus endpoint service that we just installed.
 
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
+
+
 cat << EOF > grafana.yaml
 datasources:
   datasources.yaml:
@@ -48,14 +36,8 @@ datasources:
 EOF
 Now, let’s create a namespace for Grafana and then install Grafana in that namespace. Change the admin password. In my case it’s Password1$.
 
-1
-2
-3
-4
-5
-6
-7
-8
+
+
 kubectl create namespace grafana
 helm install grafana grafana/grafana \
     --namespace grafana \
@@ -66,13 +48,11 @@ helm install grafana grafana/grafana \
     --set service.type=LoadBalancer
 You’ll get something like this on the screen when the install ends.
 
-1
+
 export SERVICE_IP=$(kubectl get svc --namespace grafana grafana -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 That’s your load balancer IP so you can access Grafana. If you use EKS, your IP is different.
 
-1
-2
-3
+
 kubectl get services -n grafana
 NAME      TYPE           CLUSTER-IP     EXTERNAL-IP                                                               PORT(S)        AGE
 grafana   LoadBalancer   10.100.20.53   a074996f790b74793a74bec584c04460-2034633908.us-east-2.elb.amazonaws.com   80:31916/TCP   3m21s

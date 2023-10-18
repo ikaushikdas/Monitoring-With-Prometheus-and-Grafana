@@ -61,3 +61,5 @@ The IP is the gibberish URL that ends with amazonaws.com. If you go to that URL,
 Go to Dashboards, click on the New button on the right and click Import.
 Add the following dashboard IDs (one by one then click Load) and choose Prometheus as a source. The IDs are 3119 (Kubernetes cluster), 6417 (pods) and 11159 (Node.js). For the first dashboard, you’ll have some metrics. The Node.js dashboard is empty and our goal is to get the metrics from the application.
 
+REF: https://blog.andreev.it/2023/01/kubernetes-monitoring-node-js-application-with-prometheus-and-grafana-helm-charts/
+
